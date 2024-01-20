@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from ckeditor import fields
 
 class CustomUser(AbstractUser):
 
@@ -39,7 +38,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=100)
     slug = models.SlugField()
-    body = fields.RichTextField(blank=True, null=True)
+    body = models.TextField(blank=True, null=True)
     publish = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -63,7 +62,7 @@ class Comment(models.Model):
 
     name = models.CharField(max_length=100, blank=True)
     email = models.EmailField()
-    comment = fields.RichTextField()
+    comment = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
