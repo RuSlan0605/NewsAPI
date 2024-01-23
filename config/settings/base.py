@@ -153,10 +153,12 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
     'http://localhost:5173',
+    'http://localhost:5500',
 ]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     'http://localhost:5173',
+    'http://localhost:5500',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
