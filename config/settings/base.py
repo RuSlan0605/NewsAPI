@@ -150,7 +150,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'post.CustomUser'
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
     'http://localhost:5173',
@@ -161,6 +161,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
     'http://localhost:5500',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
