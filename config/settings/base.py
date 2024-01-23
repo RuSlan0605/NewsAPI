@@ -35,10 +35,10 @@ INSTALLED_APPS = [
 
     #Third-party apps
     'rest_framework',
-    'corsheaders',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -54,6 +54,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
