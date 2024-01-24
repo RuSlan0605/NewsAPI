@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-*-q*tmzxpq6u-lkt4ekdr6+=el+d%y@#0ljh78@0az8v)on$gd
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', 'newsschool.pythonanywhere.com']
 
 
 # Application definition
