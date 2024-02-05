@@ -1,14 +1,13 @@
-from rest_framework import generics
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
 from rest_framework.status import *
 from post.models import CustomUser, Comment, Category, Post
 from .permissions import (
+    CustomUserPermission,
     PostPermission,
     CommentPermission,
-    CategoryPermission
+    CategoryPermission,
 )
 from .serializers import (
     CustomUserSerializer,
@@ -21,7 +20,7 @@ class UserViewSet(ModelViewSet):
     
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [CustomUserPermission]
 
 class PostViewSet(ModelViewSet):
 

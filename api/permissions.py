@@ -6,16 +6,17 @@ class CustomUserPermission(permissions.BasePermission):
 
         if request.user.is_staff:
             return True
-        else:
-            return False
+        return False
         
 class CommentPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
 
-        if request.user.is_authenticated:
+        if request.method == 'GET':
             return True
-        else:
+        if request.method =='POST':
+            if request.user.is_authenticated:
+                return True
             return False
         
 class PostPermission(permissions.BasePermission):
@@ -27,8 +28,7 @@ class PostPermission(permissions.BasePermission):
             if request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
                 if request.user.is_staff:
                     return True
-                else:
-                    return False
+                return False
 
 class CategoryPermission(permissions.BasePermission):
 
@@ -39,8 +39,6 @@ class CategoryPermission(permissions.BasePermission):
         if request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
             if request.user.is_staff:
                 return True
-            else:
-                return False
-        return  False
+            return False
         
  
