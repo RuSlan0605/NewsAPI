@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-from django.utils import timezone
-from django.contrib.auth import get_user_model
 
 class CustomUser(AbstractUser):
 
-    name = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True, db_index=True)
     is_staff = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='images/avatars/', blank=True, null=True)
 
@@ -16,7 +14,8 @@ class CustomUser(AbstractUser):
 
 class Category(models.Model):
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(unique=True)
 
     def __str__(self) -> str:
         return self.name
@@ -36,10 +35,9 @@ class Post(models.Model):
         TAYINEMES = 'TS', 'Tayin_emes'
         TAYIN = 'TN', 'Tayin'
 
-    title = models.CharField(max_length=100)
-    slug = models.SlugField()
+    title = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(unique=True)
     body = models.TextField(blank=True, null=True)
-    publish = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/')
@@ -51,12 +49,25 @@ class Post(models.Model):
     published = PublishedManager()
 
     class Meta:
-        ordering = ['-publish']
+        ordering = ['-created']
         verbose_name = 'Новости'
         verbose_name_plural = 'Новости'
 
     def __str__(self) -> str:
         return self.title
+    
+class News(models.Model):
+
+    title = models.CharField(max_length=100, db_index=True)
+    body = models.TextField()
+    image = models.ImageField(upload_to='images/news/', blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.title
+    
+    class Meta:
+        verbose_name = 'Новости'
+        verbose_name_plural = 'Новости'
     
 class Comment(models.Model):
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import CustomUser
-from .models import Category, Post, Comment
+from .models import Category, Post, Comment, News
 from .forms import CustomUserCreationForm
 from .forms import CustomUserChangeForm
 from django.contrib.auth.admin import UserAdmin
@@ -33,14 +33,20 @@ class CustomUserAdmin(admin.ModelAdmin):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
 
-    list_display = ['id', 'title', 'owner', 'publish', 'status']
+    list_display = ['id', 'title', 'owner', 'status']
     list_display_links = ['id', 'title']
-    list_filter = ['status', 'created', 'publish', 'owner']
+    list_filter = ['status', 'created', 'updated', 'owner']
     search_fields = ['title', 'body']
     prepopulated_fields = {'slug': ('title',)}
-    date_hierarchy = 'publish'
-    ordering = ['status', 'publish']
+    date_hierarchy = 'created'
+    ordering = ['status', 'created']
 
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+
+    list_display = ['id', 'title', 'image']
+    list_display_links = ['id', 'title']
+    list_filter = ['title']
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -56,6 +62,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     list_display = ['id', 'name']
     list_display_links = ['id', 'name']
+    prepopulated_fields = {'slug': ('name',)}
     list_filter = ['id', 'name']
     search_fields = ['id', 'name']
 

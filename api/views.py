@@ -2,18 +2,21 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import *
-from post.models import CustomUser, Comment, Category, Post
+from post.models import CustomUser, Comment
+from post.models import News, Post, Category
 from .permissions import (
-    CustomUserPermission,
     PostPermission,
+    NewsPermission,
     CommentPermission,
     CategoryPermission,
+    CustomUserPermission,
 )
 from .serializers import (
     CustomUserSerializer,
     PostSerializer,
     CategorySerializer,
-    CommentSerializer
+    CommentSerializer, 
+    NewsSerializer,
 )
 
 class UserViewSet(ModelViewSet):
@@ -52,6 +55,31 @@ class CommentDetailView(APIView):
     def get(self, request, pk=None):
         comment = Comment.objects.get(pk=pk)
         serializer = CommentSerializer(comment)
+        return Response(serializer.data, status=HTTP_200_OK)
+    
+class NewsView(APIView):
+
+    permission_classes = [NewsPermission]
+
+    def get(self, request):
+        news = News.objects.all()
+        serializer = NewsSerializer(news, many=True, context={'request': request})
+        return Response(serializer.data, status=HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = NewsSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+class NewsDetailView(APIView):
+
+    permission_classes = [NewsPermission]
+
+    def get(self, request, pk):
+        news = News.objects.get(pk=pk)
+        serializer = NewsSerializer(news, context={'request': request})
         return Response(serializer.data, status=HTTP_200_OK)
     
 class CategoryView(APIView):
