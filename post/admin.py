@@ -11,10 +11,10 @@ class CustomUserAdmin(admin.ModelAdmin):
     
     #add_form = CustomUserCreationForm
     #form = CustomUserChangeForm
-    #model = CustomUser
+    model = CustomUser
     list_display = ['id', 'email', 'username', 'name', 'is_staff',]
     list_display_links = ['username', ]
-'''    fieldsets = UserAdmin.fieldsets + (
+    fieldsets = UserAdmin.fieldsets + (
     (None,
         {
             'fields': ("name",)
@@ -27,7 +27,7 @@ class CustomUserAdmin(admin.ModelAdmin):
             'fields': ("name",)
             }
         ),
-    )'''
+    )
 
 
 @admin.register(Post)

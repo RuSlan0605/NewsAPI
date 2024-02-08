@@ -17,11 +17,12 @@ from .serializers import (
     CategorySerializer,
     CommentSerializer, 
     NewsSerializer,
+    get_user_model
 )
 
 class UserViewSet(ModelViewSet):
     
-    queryset = CustomUser.objects.all()
+    queryset = get_user_model().objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [CustomUserPermission]
 

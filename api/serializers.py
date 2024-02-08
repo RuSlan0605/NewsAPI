@@ -1,14 +1,24 @@
 from rest_framework import serializers
-from post.models import Category, Comment, CustomUser
+from post.models import Category, Comment
 from post.models import Post, News
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
 class CustomUserSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
 
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super(CustomUserSerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            validated_data['password'] = make_password(validated_data.get('password'))
+        return super(CustomUserSerializer, self).update(instance, validated_data)
+
     class Meta:
-        model = CustomUser
+        model = get_user_model()
         fields = (
             'id',
             'username',
@@ -19,14 +29,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'is_staff',
         )
 
-        def create(self, validated_data):
-            validated_data['password'] = make_password(validated_data.get('password'))
-            return super(CustomUserSerializer, self).create(validated_data)
-        
-        def update(self, instance, validated_data):
-            if 'password' in validated_data:
-                validated_data['password'] = make_password(validated_data.get('password'))
-            return super(CustomUserSerializer, self).update(instance, validated_data)
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:

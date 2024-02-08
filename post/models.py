@@ -50,8 +50,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created']
-        verbose_name = 'Новости'
-        verbose_name_plural = 'Новости'
+        verbose_name = 'Посты'
+        verbose_name_plural = 'Посты'
 
     def __str__(self) -> str:
         return self.title
