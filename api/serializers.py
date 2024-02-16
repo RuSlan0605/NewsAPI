@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 class CustomUserSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
+    is_staff = serializers.BooleanField(read_only=True)
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))
@@ -26,6 +27,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
+            'is_staff',
             'password',
         )
 
