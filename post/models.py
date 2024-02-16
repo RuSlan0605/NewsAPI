@@ -1,21 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-
-class CustomUser(AbstractUser):
-
-    name = models.CharField(max_length=100, blank=True, null=True, db_index=True)
-    is_staff = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to='images/avatars/', blank=True, null=True)
-
-    def __str__(self) -> str:
-        return f'{self.username}'
-    
+from django.template.defaultfilters import slugify
 
 class Category(models.Model):
 
     name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, db_index=True)
 
     def __str__(self) -> str:
         return self.name
@@ -36,7 +26,7 @@ class Post(models.Model):
         TAYIN = 'TN', 'Tayin'
 
     title = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, db_index=True)
     body = models.TextField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -56,6 +46,7 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.title
     
+    
 class News(models.Model):
 
     title = models.CharField(max_length=100, db_index=True)
@@ -68,10 +59,11 @@ class News(models.Model):
     class Meta:
         verbose_name = 'Новости'
         verbose_name_plural = 'Новости'
-    
+
+
 class Comment(models.Model):
 
-    name = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=100, blank=True, db_index=True)
     email = models.EmailField()
     comment = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

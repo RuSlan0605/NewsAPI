@@ -1,8 +1,9 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
-    UserViewSet, 
+    CustomUserViewSet, 
     PostViewSet,
+    ProfileViewSet,
     NewsView, 
     CommentView, 
     CategoryView,
@@ -12,8 +13,9 @@ from .views import (
     )
 
 router = DefaultRouter()
-router.register('users', UserViewSet, basename='users')
+router.register('users', CustomUserViewSet, basename='users')
 router.register('posts', PostViewSet, basename='posts')
+router.register('profiles', ProfileViewSet, basename='profiles')
 
 urlpatterns = [
     path('comments/', CommentView.as_view(), name='comments'),
@@ -21,5 +23,5 @@ urlpatterns = [
     path('news/', NewsView.as_view(), name='news'),
     path('news/<int:pk>/', NewsDetailView.as_view(), name='news'),
     path('categories/', CategoryView.as_view(), name='categories'),
-    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category')
+    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category'),
 ] + router.urls

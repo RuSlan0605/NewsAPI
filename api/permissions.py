@@ -55,4 +55,5 @@ class NewsPermission(permissions.BasePermission):
                 return True
             return False
         
+        
  

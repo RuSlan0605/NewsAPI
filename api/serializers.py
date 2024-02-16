@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from post.models import Category, Comment
 from post.models import Post, News
+from users.models import Profile
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
@@ -24,11 +25,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'username',
             'first_name',
             'last_name',
+            'email',
             'password',
-            'avatar',
-            'is_staff',
         )
 
+    @staticmethod
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,3 +57,4 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
+

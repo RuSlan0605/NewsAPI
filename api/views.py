@@ -2,8 +2,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import *
-from post.models import CustomUser, Comment
+from users.models import Profile
+from post.models import Comment
 from post.models import News, Post, Category
+from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
 from .permissions import (
     PostPermission,
     NewsPermission,
@@ -17,10 +20,10 @@ from .serializers import (
     CategorySerializer,
     CommentSerializer, 
     NewsSerializer,
-    get_user_model
+    ProfileSerializer,
 )
 
-class UserViewSet(ModelViewSet):
+class CustomUserViewSet(ModelViewSet):
     
     queryset = get_user_model().objects.all()
     serializer_class = CustomUserSerializer
@@ -31,6 +34,12 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [PostPermission]
+
+class ProfileViewSet(ModelViewSet):
+
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class CommentView(APIView):
@@ -107,7 +116,9 @@ class CategoryDetailView(APIView):
         category = Category.objects.get(pk=pk)
         serializer = CategorySerializer(category)
         return Response(serializer.data, status=HTTP_200_OK)
-        
+    
+
+
 
 
 

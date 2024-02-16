@@ -1,33 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser
 from .models import Category, Post, Comment, News
-from .forms import CustomUserCreationForm
-from .forms import CustomUserChangeForm
-from django.contrib.auth.admin import UserAdmin
-
-
-@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
-    
-    #add_form = CustomUserCreationForm
-    #form = CustomUserChangeForm
-    model = CustomUser
-    list_display = ['id', 'email', 'username', 'name', 'is_staff',]
-    list_display_links = ['username', ]
-    fieldsets = UserAdmin.fieldsets + (
-    (None,
-        {
-            'fields': ("name",)
-            }
-        ),
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
-    (None, 
-        {
-            'fields': ("name",)
-            }
-        ),
-    )
 
 
 @admin.register(Post)

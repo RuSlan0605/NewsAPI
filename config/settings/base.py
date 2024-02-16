@@ -13,12 +13,12 @@ SECRET_KEY = 'django-insecure-*-q*tmzxpq6u-lkt4ekdr6+=el+d%y@#0ljh78@0az8v)on$gd
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', 'newsschool.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', 'paraxat.pythonanywhere.com']
 
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,13 +27,13 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    
-
-    # local apps
+]
+LOCAL_APPS = [
     'post',
+    'users',
     'api',
-
-    #Third-party apps
+]
+THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
@@ -41,14 +41,15 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        #'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.IsAdminUser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
@@ -154,7 +155,7 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'post.CustomUser'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
